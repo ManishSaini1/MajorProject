@@ -309,7 +309,7 @@ nav .nav-links ul li:hover {
 .home {
   padding: 20px 50px;
   display: flex;
-  width: 80%;
+  width: 50%;
   margin: 0 auto;
 }
 .home .posts-list {

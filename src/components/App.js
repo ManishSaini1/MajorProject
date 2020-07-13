@@ -1,25 +1,39 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router ,Switch, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { fetchPosts } from "../actions/posts";
-import { PostsList, Navbar } from "./";
+import { Home, Navbar , Page404, PostsList} from "./"; 
 
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
   }
+  
 
   render() {
     const { posts } = this.props;
+    console.log("PROPPPP", this.props);
+    console.log("post", posts);
     return (
+     
       <Router>
-      <div>
+      < div>
         <Navbar />
-        <PostsList posts={posts} />
+        <Switch>  
+        <Route exact path="/"
+        render={(props) =>{
+        return <Home posts= {posts}  />;
+        }}
+        />
+        {/* <Route path='/login' component={Login}/> */}
+        <Route component={Page404} />
+        </Switch>
       </div>
       </Router> 
+    
+     
     );
   }
 }
