@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class PostsList extends Component {
   render() {
@@ -59,5 +60,10 @@ class PostsList extends Component {
     );
   }
 }
-
+// this props Type  is used to check what data types are passed and what  are
+//expected and through an error on the console if any other dataType is passed
+PostsList.propTypes=
+{
+  posts: PropTypes.array.isRequired,
+}
 export default PostsList;
