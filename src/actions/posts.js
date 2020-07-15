@@ -1,8 +1,10 @@
 import {UPDATE_POSTS} from './actionTypes';
+import { APIUrls } from '../helpers/urls';
 export function fetchPosts()
 {
     return(dispatch)=>{
-        const url='http://localhost:8000/api/v1/posts/?page=1&limit=6';
+        const url= APIUrls.fetchPosts();
+        console.log("In Fetching posts",url);
         fetch(url)
         .then((response)=>
         {
@@ -12,8 +14,8 @@ export function fetchPosts()
         })
         .then((data)=>
         {
-            console.log(data.post);
-            dispatch(updatePosts(data.post));
+            console.log("Post dddd....",data);
+            dispatch(updatePosts(data.data.posts));
         })
         .catch((error)=>
         {
