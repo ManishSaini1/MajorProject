@@ -81,7 +81,10 @@ code {
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
+  
+  
 }
+
 .post-avatar .post-time {
   /* font-family: Open Sans; */
   font-style: normal;
@@ -309,7 +312,7 @@ nav .nav-links ul li:hover {
 .home {
   padding: 20px 50px;
   display: flex;
-  width: 50%;
+  width: 65%;
   margin: 0 auto;
 }
 .home .posts-list {
@@ -454,6 +457,16 @@ nav .nav-links ul li:hover {
   border: 1px solid #ef7917;
   box-sizing: border-box;
   color: #ef7917;
+}
+.align-centre
+{
+  align-items: center !important;
+  margin-top: 40vh !important;
+  margin-left: 48vw !important;
+  justify-content: center;
+  /* background-color: darkblue; */
+  /* display: inline; */
+  margin: 0 auto;
 }
 .settings .save-btn {
   background: #ef7917;

@@ -1,23 +1,49 @@
-import React from "react";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import PropTypes from "prop-types";
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { fetchPosts } from "../actions/posts";
-import { Home, Navbar, Page404, Login, Signup, Settings } from "./";
-import * as jwtDecode from "jwt-decode";
-import { authenticateUser } from "../actions/auth";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { fetchPosts } from '../actions/posts';
+import {
+  Home,
+  Navbar,
+  Page404,
+  Login,
+  Signup,
+  Settings,
+  UserProfile,
+} from './';
+import * as jwtDecode from 'jwt-decode';
+import { authenticateUser } from '../actions/auth';
+import { getAuthTokenFromLocalStorage } from '../helpers/utils';
+import { fetchUserFriends } from '../actions/friends';
 
- 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
-  console.log("Logged in ", isLoggedin);
+
   return (
     <Route
       path={path}
       render={(props) => {
-        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+        console.log('props', props);
+        console.log('isLoggedin', isLoggedin);
+        return isLoggedin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );
@@ -25,14 +51,16 @@ const PrivateRoute = (privateRouteProps) => {
 
 class App extends React.Component {
   componentDidMount() {
+    console.log(" i am here fetching posts");
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem("token");
-
+    const token = getAuthTokenFromLocalStorage();
+    console.log(" i am here outsidee the token condition");
     if (token) {
+      console.log(" I AM here inside the token condition");
       const user = jwtDecode(token);
 
-      console.log("user", user);
+      console.log('user', user);
       this.props.dispatch(
         authenticateUser({
           email: user.email,
@@ -40,11 +68,15 @@ class App extends React.Component {
           name: user.name,
         })
       );
+
+      this.props.dispatch(fetchUserFriends());
     }
   }
 
   render() {
-    const { posts, auth } = this.props;
+    const { posts, auth, friends } = this.props;
+    console.log(" i m in the App cOmponent",friends);
+    console.log("im in the app compnend", posts);
     return (
       <Router>
         <div>
@@ -55,7 +87,14 @@ class App extends React.Component {
               exact
               path="/"
               render={(props) => {
-                return <Home {...props} posts={posts} />;
+                return (
+                  <Home
+                    {...props}
+                    posts={posts}
+                    friends={friends}
+                    isLoggedin={auth.isLoggedin}
+                  />
+                );
               }}
             />
             <Route path="/login" component={Login} />
@@ -65,7 +104,11 @@ class App extends React.Component {
               component={Settings}
               isLoggedin={auth.isLoggedin}
             />
-
+            <PrivateRoute
+              path="/user/:userId"
+              component={UserProfile}
+              isLoggedin={auth.isLoggedin}
+            />
             <Route component={Page404} />
           </Switch>
         </div>
@@ -78,9 +121,9 @@ function mapStateToProps(state) {
   return {
     posts: state.posts,
     auth: state.auth,
+    friends: state.friends,
   };
 }
-
 App.propTypes = {
   posts: PropTypes.array.isRequired,
 };
