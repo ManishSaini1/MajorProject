@@ -10,6 +10,8 @@ import UserProfile from "./UserProfile";
 import FriendsList from "./FriendList";
 import FriendsListItem from "./FriendListItem";
 import CreatePost from "./CreatePost";
+import Post from './Post';
+import Comment from './Comment'
 export {
   PostsList,
   App,
@@ -23,4 +25,6 @@ export {
   FriendsList,
   FriendsListItem,
   CreatePost,
+  Post, 
+  Comment
 };
