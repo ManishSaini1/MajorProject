@@ -23,6 +23,18 @@ class UserProfile extends Component {
       this.props.dispatch(fetchUserProfile(match.params.userId));
     }
   }
+  componentDidUpdate(prevProps) {
+    const {
+      match: { params: prevParams },
+    } = prevProps;
+    const {match : { params: currentParams},}=this.props;
+    if(prevParams && currentParams && prevParams.userId!==currentParams.userId)
+    {
+      this.props.dispatch(fetchUserProfile(currentParams.userId));
+
+    }
+  }
+
 
   checkIfUserIsAFriend = () => {
     console.log("this.props", this.props);
@@ -57,7 +69,6 @@ class UserProfile extends Component {
       this.setState({
         success: true,
         successMessage: "Added Friend Successfully",
-
       });
 
       this.props.dispatch(addFriend(data.data.friendship));
