@@ -2,7 +2,7 @@
   position: fixed;
   height: 400px;
   width: 300px;
-  bottom: 0;
+  bottom: 2.7px;
   right: 10px;
   border: 2px solid #6200ee !important;
 }
@@ -37,6 +37,10 @@
   font-size: 15px;
   position: relative;
 }
+.chat-messages .other-chat
+{
+  width: fit-content; 
+}
 .chat-messages .other-chat:after {
   content: "";
   position: absolute;
@@ -50,9 +54,12 @@
   border-bottom: 0;
   margin-top: -1px;
   margin-left: -10px;
+  float: left;
 }
 .chat-messages .self-chat {
   background: #b0ffb3;
+  width: fit-content;
+  margin-left: auto;
 }
 .chat-messages .self-chat:after {
   content: "";
@@ -66,6 +73,7 @@
   border-right: 0;
   border-bottom: 0;
   margin-top: -1px;
+
   margin-right: -10px;
 }
 .chat-footer {
